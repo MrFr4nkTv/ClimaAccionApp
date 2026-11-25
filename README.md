@@ -16,10 +16,4 @@ Carlos Mendoza, gerente de logística y padre de dos hijos en el Sector Miramar 
 
 Además, en **`02 · Mi Huella Verde`**, la familia calcula sus emisiones mensuales (`Luz`, `Agua`, `Basura`), conecta el diagnóstico con la guía de *Aislamiento térmico* ante olas de `+45°C` y da seguimiento a sus *Retos Semanales*.
 
-## Estructura del Proyecto
 
-- `index.html` — Maquetación semántica accesible de las 4 pestañas principales, sub-vistas conectadas, modales *bottom sheet* y panel guía del storyboard.
-- `styles.css` — Sistema de diseño Hi-Fi responsivo (`392×824` en escritorio y pantalla completa `100dvh` en dispositivos móviles reales).
-- `app.js` — Estado interactivo, calculadora de emisiones, checklists, filtros, mapa SVG de albergues y simulación de Modo Offline.
-- `favicon.svg` — Icono vectorial de la aplicación.
-- `.nojekyll` — Despliegue directo de archivos estáticos en GitHub Pages.
