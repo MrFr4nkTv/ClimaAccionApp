@@ -938,7 +938,10 @@ function initEvents() {
     const isClean = document.body.classList.toggle('clean-mode');
     btnToggleClean.classList.toggle('active-clean', isClean);
     btnToggleClean.textContent = isClean ? '📋 Mostrar guía de flujo' : '📱 Solo teléfono';
+    fitDesktopStage();
   });
+
+  window.addEventListener('resize', fitDesktopStage);
 
   document.getElementById('btnResetDemo').addEventListener('click', () => {
     state = initialState();
@@ -957,6 +960,34 @@ function initEvents() {
   });
 }
 
+// Ajuste automático en ventanas de escritorio (ej. 1680x1050, laptops o escalado 125%) sin barra lateral
+function fitDesktopStage() {
+  const stageWrapper = document.getElementById('stageWrapper');
+  const stageInner = document.getElementById('stageInner');
+  const phoneShell = document.querySelector('.phone-shell');
+  const presenterPanel = document.querySelector('.presenter-panel');
+  if (!stageWrapper || !stageInner || !phoneShell) return;
+
+  if (window.innerWidth <= 900 || window.innerHeight < 520) {
+    stageInner.style.setProperty('--stage-scale', '1');
+    return;
+  }
+
+  const availW = stageWrapper.clientWidth - 40;
+  const availH = stageWrapper.clientHeight - 24;
+  const isClean = document.body.classList.contains('clean-mode');
+  const naturalH = Math.max(
+    phoneShell.offsetHeight,
+    !isClean && presenterPanel ? presenterPanel.offsetHeight : 0
+  );
+  const naturalW = stageInner.offsetWidth;
+
+  if (naturalH <= 0 || naturalW <= 0) return;
+
+  const scale = Math.min(1, availH / naturalH, availW / naturalW);
+  stageInner.style.setProperty('--stage-scale', scale.toFixed(4));
+}
+
 // Arranque inicial
 renderSemaforo();
 updateHuellaCalculation();
@@ -964,3 +995,4 @@ renderRetos();
 renderGuidesList();
 selectShelter('municipal');
 initEvents();
+fitDesktopStage();

@@ -72,13 +72,14 @@ input:focus-visible,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
+  padding: 9px 24px;
   background: rgba(15, 23, 42, 0.78);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.09);
   color: #f8fafc;
   gap: 12px;
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .brand-meta {
@@ -144,14 +145,45 @@ input:focus-visible,
 /* Main Stage Layout */
 .stage-wrapper {
   flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.stage-inner {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 36px;
-  padding: 24px 20px 32px;
-  max-width: 1180px;
-  width: 100%;
-  margin: 0 auto;
+  width: fit-content;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: center center;
+}
+
+@media (min-width: 901px) and (min-height: 520px) {
+  html,
+  body {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .stage-wrapper {
+    overflow: hidden;
+  }
+
+  .phone-shell {
+    height: clamp(780px, calc(100dvh - 76px), 824px);
+  }
+
+  .presenter-panel {
+    max-height: clamp(640px, calc(100dvh - 76px), 824px);
+    overflow-y: auto;
+  }
 }
 
 body.clean-mode .presenter-panel {
@@ -1609,8 +1641,12 @@ input[type='range'].styled-slider::-moz-range-thumb {
 /* Responsive Mobile View */
 @media (max-width: 900px) {
   .stage-wrapper {
-    flex-direction: column;
     padding: 16px 12px;
+  }
+  .stage-inner {
+    flex-direction: column;
+    gap: 24px;
+    transform: none !important;
   }
   .presenter-panel {
     max-width: 392px;
@@ -1623,6 +1659,13 @@ input[type='range'].styled-slider::-moz-range-thumb {
   }
   .stage-wrapper {
     padding: 0;
+  }
+  .stage-inner {
+    width: 100%;
+    height: 100%;
+    gap: 0;
+    max-width: none;
+    transform: none !important;
   }
   .phone-shell {
     width: 100vw;
