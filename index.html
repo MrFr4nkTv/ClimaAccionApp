@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Prototipo interactivo Hi-Fi de ClimaAcción para familias de Guaymas, Sonora (ODS 13 · Meta 13.3): alerta temprana, huella verde, hogar resiliente y modo offline." />
+  <meta name="theme-color" content="#0f766e" />
+  <meta property="og:title" content="ClimaAcción · Prototipo Interactivo Hi-Fi" />
+  <meta property="og:description" content="Educación climática, alerta temprana y preparación familiar con Modo Offline para Guaymas, Sonora (ODS 13 · Meta 13.3)." />
+  <meta property="og:type" content="website" />
+  <title>ClimaAcción · Prototipo Interactivo Hi-Fi (Guaymas, Sonora)</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Barra superior de presentación -->
+  <header class="workspace-topbar">
+    <div class="brand-meta">
+      <span class="ods-pill">ODS 13 · Meta 13.3</span>
+      <div>
+        <h1>ClimaAcción — Prototipo Interactivo Hi-Fi</h1>
+        <span class="sub">Guaymas, Sonora · Educación, alerta temprana y resiliencia familiar</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="top-btn" id="btnResetDemo" type="button" title="Restaurar datos iniciales del prototipo">
+        ↺ Reiniciar flujo
+      </button>
+      <button class="top-btn" id="btnToggleClean" type="button">
+        📱 Solo teléfono
+      </button>
+    </div>
+  </header>
+
+  <main class="stage-wrapper">
+    <!-- Marco del Teléfono Móvil -->
+    <div class="phone-shell" role="region" aria-label="Prototipo móvil ClimaAcción">
+      <div class="phone-screen" id="phoneScreen">
+        <!-- Barra de Estado Móvil -->
+        <div class="status-bar">
+          <span id="phoneClock">18:42</span>
+          <div class="notch-pill"><div class="notch-cam"></div></div>
+          <div class="status-icons">
+            <span class="net-chip" id="netStatusChip">5G · Online</span>
+            <span aria-label="Batería 84%">84% 🔋</span>
+          </div>
+        </div>
+
+        <!-- Banner Global de Modo Offline -->
+        <div class="offline-banner" id="globalOfflineBanner">
+          <div class="offline-banner-left">
+            <span class="offline-dot"></span>
+            <span><strong>Modo Offline activo</strong> · Guías y contactos guardados</span>
+          </div>
+          <button type="button" id="btnBannerReconnect">Reconectar</button>
+        </div>
+
+        <!-- Contenedor Principal de Pantallas -->
+        <div class="app-viewport">
+
+          <!-- ==========================================
+               01 · CLIMAACCIÓN (PESTAÑA ALERTA)
+               ========================================== -->
+          <section class="screen-view active" id="screen-alerta" aria-label="ClimaAcción Alertas">
+            <div class="screen-header">
+              <div>
+                <h2 class="screen-title">ClimaAcción</h2>
+                <p class="screen-subtitle">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Guaymas, Sonora · Sector Miramar
+                </p>
+              </div>
+              <button type="button" class="saved-pill" id="btnOpenOdsSheet" title="Ver información de familia y ODS 13.3" style="cursor:pointer;">
+                👨‍👧‍👦 Carlos M.
+              </button>
+            </div>
+
+            <!-- Notificación Push Simulada (Storyboard Carlos Mendoza) -->
+            <button type="button" class="push-alert-toast" id="pushFloodBanner">
+              <div class="push-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="push-body">
+                <strong>Aviso en tu sector: Lluvias intensas</strong>
+                <p>Posible crecida de arroyos en Miramar y Sector Norte. Revisa recomendaciones oficiales.</p>
+                <span class="push-cta">Consultar recomendaciones →</span>
+              </div>
+            </button>
+
+            <!-- Semáforo de Alerta Temprana -->
+            <div class="section-label">
+              <span>Semáforo de Alerta Temprana</span>
+              <span class="hint">Toca para probar nivel</span>
+            </div>
+
+            <div class="semaforo-card">
+              <div class="semaforo-housing" role="group" aria-label="Luces del semáforo">
+                <button type="button" class="light-btn green" data-level="verde" aria-label="Nivel Verde"></button>
+                <button type="button" class="light-btn amber" data-level="amarillo" aria-label="Nivel Amarillo"></button>
+                <button type="button" class="light-btn red active" data-level="rojo" aria-label="Nivel Rojo"></button>
+              </div>
+              <div class="semaforo-levels">
+                <div class="semaforo-row" data-level="verde" role="button" tabindex="0">
+                  <div>
+                    <div class="semaforo-row-title">Verde</div>
+                    <div class="semaforo-row-desc">Condiciones estables · Prevención</div>
+                  </div>
+                  <span class="semaforo-status-pill" style="background:#dcfce7;color:#15803d;">Normal</span>
+                </div>
+                <div class="semaforo-row" data-level="amarillo" role="button" tabindex="0">
+                  <div>
+                    <div class="semaforo-row-title">Amarillo</div>
+                    <div class="semaforo-row-desc">Vigilancia · Prepara tu hogar</div>
+                  </div>
+                  <span class="semaforo-status-pill" style="background:#fef3c7;color:#b45309;">Atención</span>
+                </div>
+                <div class="semaforo-row active-red" data-level="rojo" role="button" tabindex="0">
+                  <div>
+                    <div class="semaforo-row-title">Rojo</div>
+                    <div class="semaforo-row-desc">Peligro activo · Sigue protocolo</div>
+                  </div>
+                  <span class="semaforo-status-pill" style="background:#fee2e2;color:#b91c1c;">Activo</span>
+                </div>
+                <div class="semaforo-summary-box" id="semaforoDynamicMsg">
+                  <strong>Alerta Roja en Guaymas:</strong> Lluvias puntuales fuertes (65 mm/h). Evita cruzar arroyos y ten listo tu Kit de Emergencia.
+                </div>
+              </div>
+            </div>
+
+            <!-- Tarjetas de Riesgos Climáticos (Fiel al Wireframe 1 + conectadas) -->
+            <div class="section-label">
+              <span>Riesgos Monitoreados</span>
+              <span class="hint">Toca para abrir plan</span>
+            </div>
+
+            <div class="risk-list">
+              <button type="button" class="risk-card urgent-flood" data-open-alert="arroyos">
+                <div class="risk-info">
+                  <span class="risk-badge flood">● Alerta en tu sector · Ahora</span>
+                  <div class="risk-title">Crecida de Arroyos</div>
+                  <div class="risk-meta">Lluvias intensas · Ver medidas y lista familiar →</div>
+                </div>
+                <div class="risk-icon-box flood" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+                    <path d="M8 19v2"/><path d="M12 17v4"/><path d="M16 19v2"/>
+                    <path d="M2 22c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/>
+                  </svg>
+                </div>
+              </button>
+
+              <button type="button" class="risk-card heat-warning" data-open-alert="calor">
+                <div class="risk-info">
+                  <span class="risk-badge heat">▲ Vigilancia térmica · Sonora</span>
+                  <div class="risk-title">Calor Extremo +45°C</div>
+                  <div class="risk-meta">Sensación 47°C · Hidratación y aislamiento →</div>
+                </div>
+                <div class="risk-icon-box heat" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/>
+                    <path d="M18 2v2"/><path d="M18 8v2"/><path d="m21 5-2 0"/><path d="M12 17a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SUB-PANTALLA 1A · DETALLE DE ALERTA Y CONEXIÓN
+               ========================================== -->
+          <section class="screen-view" id="screen-alerta-detalle" aria-label="Detalle de Alerta Oficial">
+            <div class="subscreen-nav">
+              <button type="button" class="back-btn" id="btnBackFromAlert">
+                ← Alertas
+              </button>
+              <span class="saved-pill">✓ Boletín guardado</span>
+            </div>
+
+            <div id="alertDetailContent">
+              <!-- Rellenado dinámicamente desde app.js -->
+            </div>
+          </section>
+
+          <!-- ==========================================
+               02 · MI HUELLA VERDE (PESTAÑA HUELLA)
+               ========================================== -->
+          <section class="screen-view" id="screen-huella" aria-label="Mi Huella Verde">
+            <div class="screen-header">
+              <div>
+                <h2 class="screen-title">Mi Huella Verde</h2>
+                <p class="screen-subtitle">Mitigación y consumo consciente en casa · ODS 13.3</p>
+              </div>
+            </div>
+
+            <div class="section-label">
+              <span>Calculadora de Emisiones</span>
+              <span class="hint">Hogar de 4 personas</span>
+            </div>
+
+            <div class="card-box">
+              <!-- Luz -->
+              <div class="slider-group">
+                <div class="slider-header">
+                  <label class="slider-label-left" for="sliderLuz">
+                    <span class="slider-icon" style="background:#fef3c7;color:#d97706;" aria-hidden="true">💡</span>
+                    Luz
+                  </label>
+                  <span class="slider-val" id="valLuz">480 kWh/mes</span>
+                </div>
+                <input type="range" id="sliderLuz" class="styled-slider" min="100" max="900" step="20" value="480" />
+              </div>
+
+              <!-- Agua -->
+              <div class="slider-group">
+                <div class="slider-header">
+                  <label class="slider-label-left" for="sliderAgua">
+                    <span class="slider-icon" style="background:#e0f2fe;color:#0284c7;" aria-hidden="true">💧</span>
+                    Agua
+                  </label>
+                  <span class="slider-val" id="valAgua">320 L/día</span>
+                </div>
+                <input type="range" id="sliderAgua" class="styled-slider" min="80" max="600" step="20" value="320" />
+              </div>
+
+              <!-- Basura -->
+              <div class="slider-group" style="margin-bottom:16px;">
+                <div class="slider-header">
+                  <label class="slider-label-left" for="sliderBasura">
+                    <span class="slider-icon" style="background:#f1f5f9;color:#475569;" aria-hidden="true">🗑️</span>
+                    Basura
+                  </label>
+                  <span class="slider-val" id="valBasura">6 bolsas/sem</span>
+                </div>
+                <input type="range" id="sliderBasura" class="styled-slider" min="1" max="12" step="1" value="6" />
+              </div>
+
+              <button type="button" class="primary-btn" id="btnCalcularHuella">
+                Calcular huella mensual
+              </button>
+
+              <!-- Resultado conectado con Guías -->
+              <div class="calc-result" id="calcResultBox">
+                <div class="calc-score-row">
+                  <span class="calc-kg" id="calcKgText">269 kg CO₂e / mes</span>
+                  <span class="calc-level-badge" id="calcBadge" style="background:#fef3c7;color:#b45309;">Impacto Medio</span>
+                </div>
+                <p class="calc-tip" id="calcTipText">
+                  El aire acondicionado representa tu mayor consumo en Guaymas. Mejorar el aislamiento térmico reduce hasta un 30% tu recibo y emisiones.
+                </p>
+                <button type="button" class="link-chip-btn" id="btnHuellaToGuia">
+                  <span>📖 Abrir guía: Aislamiento térmico</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Retos Semanales -->
+            <div class="section-label">
+              <span>Retos Semanales</span>
+              <span class="hint" id="retosProgressText">1 de 3 logrados</span>
+            </div>
+
+            <div class="card-box" style="margin-bottom:8px;">
+              <div class="check-list" id="retosList">
+                <!-- Generado y sincronizado en app.js -->
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               03 · HOGAR RESILIENTE (PESTAÑA GUÍAS)
+               ========================================== -->
+          <section class="screen-view" id="screen-guias" aria-label="Hogar Resiliente">
+            <div class="screen-header">
+              <div>
+                <h2 class="screen-title">Hogar Resiliente</h2>
+                <p class="screen-subtitle">Preparación familiar y listas guardadas sin red</p>
+              </div>
+              <span class="saved-pill">✓ Offline listo</span>
+            </div>
+
+            <!-- Filtros (Calor / Inundaciones + Todos) -->
+            <div class="filter-pills" role="group" aria-label="Filtrar guías por riesgo">
+              <button type="button" class="pill-btn active" data-filter="todos" aria-pressed="true">Todas</button>
+              <button type="button" class="pill-btn" data-filter="calor" aria-pressed="false">Calor</button>
+              <button type="button" class="pill-btn" data-filter="inundaciones" aria-pressed="false">Inundaciones</button>
+            </div>
+
+            <div class="section-label">
+              <span>Guías Paso a Paso</span>
+              <span class="hint" id="guiasCountHint">3 disponibles</span>
+            </div>
+
+            <div class="guide-list" id="guideCardsContainer">
+              <!-- Tarjetas generadas desde app.js respetando el Wireframe 3 -->
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SUB-PANTALLA 3A · GUÍA PASO A PASO Y CHECKLIST FAMILIAR
+               ========================================== -->
+          <section class="screen-view" id="screen-guia-detalle" aria-label="Detalle de Guía Paso a Paso">
+            <div class="subscreen-nav">
+              <button type="button" class="back-btn" id="btnBackFromGuide">
+                ← Hogar Resiliente
+              </button>
+              <button type="button" class="saved-pill" id="guideOfflineBadge">✓ Guardada Offline</button>
+            </div>
+
+            <div id="guideDetailContent">
+              <!-- Contenido interactivo de pasos y lista de artículos familiares -->
+            </div>
+          </section>
+
+          <!-- ==========================================
+               04 · RED DE APOYO (PESTAÑA APOYO)
+               ========================================== -->
+          <section class="screen-view" id="screen-apoyo" aria-label="Red de Apoyo">
+            <div class="screen-header">
+              <div>
+                <h2 class="screen-title">Red de Apoyo</h2>
+                <p class="screen-subtitle">Contactos oficiales y albergues en Guaymas</p>
+              </div>
+              <button type="button" class="offline-switch-pill" id="btnToggleOffline" aria-pressed="false">
+                <span class="switch-indicator"></span>
+                <span id="offlineBtnLabel">Modo Offline</span>
+              </button>
+            </div>
+
+            <!-- Marcado Rápido (Wireframe 4) -->
+            <div class="section-label">
+              <span>Marcado Rápido</span>
+              <span class="hint">Funciona sin internet</span>
+            </div>
+
+            <div class="dial-list">
+              <button type="button" class="dial-btn" data-call="proteccion">
+                <div class="dial-left">
+                  <div class="dial-icon">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <div class="dial-name">Protección Civil</div>
+                    <div class="dial-sub">Unidad Municipal Guaymas · 622 222 7510</div>
+                  </div>
+                </div>
+                <span class="dial-action-tag">Llamar</span>
+              </button>
+
+              <button type="button" class="dial-btn" data-call="cruzroja">
+                <div class="dial-left">
+                  <div class="dial-icon">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <div class="dial-name">Cruz Roja</div>
+                    <div class="dial-sub">Delegación Guaymas · 622 222 0485</div>
+                  </div>
+                </div>
+                <span class="dial-action-tag">Llamar</span>
+              </button>
+
+              <button type="button" class="dial-btn emergency-911" data-call="911">
+                <div class="dial-left">
+                  <div class="dial-icon">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <div class="dial-name">911</div>
+                    <div class="dial-sub">Emergencias 24/7 · Red celular directa</div>
+                  </div>
+                </div>
+                <span class="dial-action-tag">SOS 911</span>
+              </button>
+            </div>
+
+            <!-- Ubicación de Albergues (Mapa interactivo con 3 pines como Wireframe 4) -->
+            <div class="section-label">
+              <span>Ubicación de Albergues</span>
+              <span class="hint">Toca un pin en el mapa</span>
+            </div>
+
+            <div class="map-card">
+              <div class="map-svg-wrap">
+                <span class="map-badge-overlay" id="mapCacheBadge">🗺️ Mapa local guardado (Guaymas)</span>
+                <svg viewBox="0 0 340 158" aria-label="Mapa de albergues en Guaymas">
+                  <!-- Fondo urbano y bahía -->
+                  <rect width="340" height="158" fill="#eef2f6" />
+                  <path d="M0 128 Q85 118 155 138 T340 132 L340 158 L0 158 Z" fill="#bae6fd" opacity="0.65" />
+                  <!-- Traza de calles estilo cuadrícula Guaymas -->
+                  <g stroke="#cbd5e1" stroke-width="5" fill="none">
+                    <line x1="0" y1="38" x2="340" y2="38" />
+                    <line x1="0" y1="84" x2="340" y2="84" />
+                    <line x1="68" y1="0" x2="68" y2="140" />
+                    <line x1="158" y1="0" x2="158" y2="140" />
+                    <line x1="258" y1="0" x2="220" y2="145" />
+                  </g>
+                  <!-- Cauce de arroyo (zona a evitar) -->
+                  <path d="M112 0 Q124 62 104 136" stroke="#93c5fd" stroke-width="4" stroke-dasharray="5 4" fill="none" />
+                  <!-- Ruta segura sugerida desde casa de Carlos -->
+                  <path id="safeRoutePath" d="M44 96 L68 96 L68 56" stroke="#0f766e" stroke-width="3" stroke-dasharray="4 3" fill="none" />
+
+                  <!-- Ubicación actual Familia Mendoza -->
+                  <g transform="translate(44, 96)">
+                    <circle r="8" fill="#0284c7" opacity="0.22" />
+                    <circle r="4.5" fill="#0284c7" stroke="#ffffff" stroke-width="1.8" />
+                  </g>
+
+                  <!-- Pin 1: Albergue Municipal -->
+                  <g class="map-pin-group" data-shelter="municipal" role="button" tabindex="0" aria-label="Albergue Municipal" transform="translate(68, 52)">
+                    <title>Albergue Municipal</title>
+                    <circle class="pin-halo" r="15" fill="#0f766e" opacity="0.2" />
+                    <path d="M0 -14 C-7.5 -14 -12 -8.5 -12 -2.5 C-12 5.5 0 14 0 14 C0 14 12 5.5 12 -2.5 C12 -8.5 7.5 -14 0 -14 Z" fill="#0f766e" stroke="#ffffff" stroke-width="2" />
+                    <circle cy="-3.5" r="4" fill="#ffffff" />
+                  </g>
+
+                  <!-- Pin 2: Centro Cívico Miramar -->
+                  <g class="map-pin-group" data-shelter="miramar" role="button" tabindex="0" aria-label="Centro Cívico Miramar" transform="translate(198, 102)">
+                    <title>Centro Cívico Miramar</title>
+                    <circle class="pin-halo" r="15" fill="#0f766e" opacity="0" />
+                    <path d="M0 -14 C-7.5 -14 -12 -8.5 -12 -2.5 C-12 5.5 0 14 0 14 C0 14 12 5.5 12 -2.5 C12 -8.5 7.5 -14 0 -14 Z" fill="#475569" stroke="#ffffff" stroke-width="2" />
+                    <circle cy="-3.5" r="4" fill="#ffffff" />
+                  </g>
+
+                  <!-- Pin 3: Secundaria Técnica 30 (Sector Norte) -->
+                  <g class="map-pin-group" data-shelter="norte" role="button" tabindex="0" aria-label="Secundaria Técnica No. 30" transform="translate(274, 46)">
+                    <title>Secundaria Técnica No. 30</title>
+                    <circle class="pin-halo" r="15" fill="#0f766e" opacity="0" />
+                    <path d="M0 -14 C-7.5 -14 -12 -8.5 -12 -2.5 C-12 5.5 0 14 0 14 C0 14 12 5.5 12 -2.5 C12 -8.5 7.5 -14 0 -14 Z" fill="#475569" stroke="#ffffff" stroke-width="2" />
+                    <circle cy="-3.5" r="4" fill="#ffffff" />
+                  </g>
+                </svg>
+              </div>
+              <div class="map-legend">
+                <span><i class="legend-dot home"></i> Tu hogar</span>
+                <span><i class="legend-dot shelter"></i> Albergue</span>
+                <span><i class="legend-line arroyo"></i> Arroyo a evitar</span>
+              </div>
+            </div>
+
+            <!-- Tarjeta inferior del Albergue Seleccionado (Fiel al Wireframe 4 + abre ruta) -->
+            <button type="button" class="shelter-selected-card" id="btnOpenShelterDetail">
+              <div class="shelter-left">
+                <div class="shelter-pin-badge">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <div class="dial-name" id="selectedShelterName">Albergue Municipal</div>
+                  <div class="dial-sub" id="selectedShelterMeta">Abierto · A 1.2 km · Ruta segura sin arroyos</div>
+                </div>
+              </div>
+              <span class="dial-action-tag">Ver ruta →</span>
+            </button>
+          </section>
+
+        </div>
+
+        <!-- Barra de Navegación Inferior (4 Pestañas Exactas de los Bocetos) -->
+        <nav class="bottom-nav" aria-label="Navegación principal">
+          <button type="button" class="nav-tab active" data-tab="alerta">
+            <span class="tab-dot" id="alertTabDot"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+            <span>Alerta</span>
+          </button>
+
+          <button type="button" class="nav-tab" data-tab="huella">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+            <span>Huella</span>
+          </button>
+
+          <button type="button" class="nav-tab" data-tab="guias">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+              <path d="M9 7h6"/><path d="M9 11h4"/>
+            </svg>
+            <span>Guías</span>
+          </button>
+
+          <button type="button" class="nav-tab" data-tab="apoyo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span>Apoyo</span>
+          </button>
+        </nav>
+
+        <!-- Bottom Sheet Modal (Dentro del Teléfono) -->
+        <div class="sheet-backdrop" id="phoneSheetBackdrop" role="dialog" aria-modal="true">
+          <div class="bottom-sheet" id="phoneSheetBody">
+            <!-- Rellenado dinámicamente desde app.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel Lateral Guía del Flujo Principal (Storyboard Carlos Mendoza) -->
+    <aside class="presenter-panel" aria-label="Guía interactiva del flujo de usuario">
+      <h2>Recorrido del Flujo Principal</h2>
+      <p class="presenter-desc">
+        Puedes navegar libremente en el teléfono o tocar cualquier escena del <strong>storyboard de Carlos Mendoza</strong> (padre de 2 hijos en Guaymas) para saltar y probar las conexiones entre pantallas:
+      </p>
+
+      <div class="current-flow-box">
+        <div class="current-flow-label">Vista activa en el prototipo</div>
+        <div class="current-flow-value" id="flowLocationIndicator">01 · ClimaAcción → Semáforo y Alertas</div>
+      </div>
+
+      <div class="storyboard-steps">
+        <button type="button" class="story-step-btn active" data-story="1">
+          <span class="step-num">1</span>
+          <div class="step-copy">
+            <strong>Recibe alerta de lluvias e inundación</strong>
+            <span>Semáforo en Rojo en Guaymas y aviso de crecida de arroyos en su sector.</span>
+          </div>
+        </button>
+
+        <button type="button" class="story-step-btn" data-story="2">
+          <span class="step-num">2</span>
+          <div class="step-copy">
+            <strong>Consulta recomendaciones oficiales</strong>
+            <span>Abre el detalle de “Crecida de Arroyos” con medidas claras para su familia.</span>
+          </div>
+        </button>
+
+        <button type="button" class="story-step-btn" data-story="3">
+          <span class="step-num">3</span>
+          <div class="step-copy">
+            <strong>Reúne artículos con “Hogar Resiliente”</strong>
+            <span>Desde la alerta salta directo a la lista interactiva para organizar a sus 2 hijos.</span>
+          </div>
+        </button>
+
+        <button type="button" class="story-step-btn" data-story="4">
+          <span class="step-num">4</span>
+          <div class="step-copy">
+            <strong>Falla internet → Activa Modo Offline</strong>
+            <span>Se corta la red durante la tormenta, pero sus guías y contactos siguen accesibles.</span>
+          </div>
+        </button>
+
+        <button type="button" class="story-step-btn" data-story="5">
+          <span class="step-num">5</span>
+          <div class="step-copy">
+            <strong>Contactos oficiales y Albergue seguro</strong>
+            <span>Consulta Protección Civil y la ruta sin arroyos hacia el Albergue Municipal.</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="ods-note">
+        <strong>ODS 13 · Meta 13.3:</strong> Integra alerta temprana (<em>Alerta</em>), sensibilización cotidiana (<em>Mi Huella Verde</em>), preparación del hogar (<em>Guías</em>) y respuesta resiliente sin conexión (<em>Red de Apoyo</em>).
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
